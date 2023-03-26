@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+     <style>
+    h1 {
+      font-family: 'Cedarville Cursive'; font-size: 40px;
+    }
+    
+    #textarea, #invisdiv {
+      opacity: 0;
+    }
+    
+    body {
+      background-image: url('https://i.kym-cdn.com/photos/images/original/002/356/588/849.png');
+      background-repeat: repeat;
+      background-attachment: fixed;  
+      background-size: cover;
+      font-family: "Raleway", sans-serif;
+      font-size: 30px;
+    }
+  </style>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">
+       <meta property="og:title" content="Le Meme Vault">
+      <meta property="og:image" content="https://images-ext-1.discordapp.net/external/S1dHVqhjTlod3iK0-OAV3Kv8hlVYOzHS264sH4EL0Ug/%3Frik%3DHNdjrjJtFaLf5w%26riu%3Dhttp%253a%252f%252fwww.pngmart.com%252ffiles%252f7%252fVault-PNG-Image.png%26ehk%3DERRk3q0TBhXMkF40D2u18cFoJHwzomlHhzFuvAZ6NLY%253d%26risl%3D%26pid%3DImgRaw%26r%3D0/https/th.bing.com/th/id/R.dfd26231e27535f4518026fc107c32c0" />
+      <title>Memes</title>
+          <center>
+                   
+     <div id="card-container"></div>
+            </center>   
+
+    <script>
+      // Define an array of image and video URLs
+      const media = [
+        {
+          type: "image",
+          url: "https://media.discordapp.net/attachments/1012199188135690358/1082878824070533272/3eb2dc54-0f7b-4247-a031-c00d7f7a9a48.png?width=531&height=663",
+        },
+        {
+          type: "video",
+          url: "Memes/parrot.mp4",
+        },
+         {
+          type: "image",
+          url: "https://media.discordapp.net/attachments/1012199188135690358/1081623884207501393/6cf166a0-863d-45ef-b38f-5d775d8e2a9b.png?width=556&height=663",
+        },
+          {
+          type: "image",
+          url: "https://media.discordapp.net/attachments/1012199188135690358/1077359506662625310/1675915549236.png?width=885&height=663",
+        },
+         {
+          type: "video",
+          url: "https://cdn.discordapp.com/attachments/1012199188135690358/1081219355909570660/jqObKhkOGtF7b7bZ.mp4",
+        },
+        {
+          type: "image",
+          url: "https://media.discordapp.net/attachments/1012199188135690358/1082150619462238239/media2FFpeTDRPakAEtCjJ.png?width=756&height=663",
+        },
+        {
+          type: "image",
+          url: "https://media.discordapp.net/attachments/1012199188135690358/1081626912138469376/4bc492c0-199c-45b6-a403-e9fc9fab66d2.png?width=576&height=663",
+        },
+        {
+         type: "image",
+          url: "https://media.discordapp.net/attachments/1012199188135690358/1081626117502406656/9dfa3531-490f-497b-b24d-630faa6cf5b3.png?width=480&height=663",
+        },
+      ];
+
+      // Create a card element for each media item
+      const cardContainer = document.getElementById("card-container");
+      media.forEach((item) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+         
+        
+
+        let mediaElement;
+        if (item.type === "image") {
+          mediaElement = document.createElement("img");
+          mediaElement.src = item.url;
+        } else if (item.type === "video") {
+          mediaElement = document.createElement("video");
+          mediaElement.src = item.url;
+          mediaElement.controls = true;
+        }
+
+        card.appendChild(mediaElement);
+        cardContainer.appendChild(card);
+      });
+    </script>
+                   
+  </body>
+                       
+</html>

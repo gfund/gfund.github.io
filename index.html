@@ -1,1 +1,67 @@
-"Hello People of the World"
+<!DOCTYPE html>
+<html>
+<head>
+   <link rel="icon" href="https://www.kindpng.com/picc/m/238-2385973_vector-g-logo-png-transparent-png.png">
+  <link href='https://fonts.googleapis.com/css?family=Cedarville Cursive' rel='stylesheet'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <audio id="bg-music" autoplay >
+    <source src="snipped.mp3" type="audio/mpeg">
+  </audio>
+
+  <style>
+    h1 {
+      font-family: 'Cedarville Cursive'; font-size: 40px;
+    }
+    
+    #textarea, #invisdiv {
+      opacity: 0;
+    }
+    
+    body {
+      background-image: url('https://media.tenor.com/-eXM6W9as0MAAAAC/relaxing-beach.gif');
+      background-repeat: no-repeat;
+      background-attachment: fixed;  
+      background-size: cover;
+      font-family: "Raleway", sans-serif;
+      font-size: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+    <h1> Gunnar Funderburk</h1>
+    <div id="typing-text"></div>
+   <br>
+    <div id="invisdiv">
+        <a href="pages/aboutme.html">About Me</a> ,
+       <a href="pages/projects.html">My Projects</a>
+        <br>
+      <a href="pages/memes.html">Fun</a>
+        <a href="pages/bearlink.html">BearLink</a>
+    </div>
+  </center>
+
+  <script>
+    const text = "Welcome to my website!";
+    let index = 0;
+
+    function typeText() {
+      const typingText = document.getElementById("typing-text");
+      typingText.innerHTML += text.charAt(index);
+      index++;
+      if (index >= text.length) {
+        clearInterval(intervalId);
+        showElements();
+      }
+    }
+
+    function showElements() {
+      const elements = document.querySelectorAll('#textarea, #invisdiv');
+      elements.forEach(el => el.style.opacity = '1');
+    }
+
+    const intervalId = setInterval(typeText, 150);
+  </script>
+</body>
+</html>

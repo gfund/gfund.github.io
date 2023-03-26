@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Cedarville Cursive' rel='stylesheet'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<audio id="bg-music" autoplay >
+  <source src="snipped.mp3" type="audio/mpeg">
+</audio>
+
+<style>
+  h1{
+      font-family: 'Cedarville Cursive';font-size: 40px;;
+  }
+  textare{
+    opacity:0;
+  }
+body {
+ 
+  background-image: url('https://media.tenor.com/-eXM6W9as0MAAAAC/relaxing-beach.gif');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+  font-family: "Raleway", sans-serif; font-size:30px;
+}
+</style>
+</head>
+   <center><h1> Gunnar Funderburk</h1>
+<div id="typing-text"></div>
+     
+
+
+
+  
+	<script>
+		const text = "Welcome to my website!";
+		let index = 0;
+
+		function typeText() {
+			const typingText = document.getElementById("typing-text");
+			typingText.innerHTML += text.charAt(index);
+			index++;
+			if (index >= text.length) {
+        text.style.opacity = '1';
+				clearInterval(intervalId);
+			}
+		}
+    
+
+		const intervalId = setInterval(typeText, 150);
+    
+	</script>
+
+<body>
+  <div id="textarea">
+ <A HREF="pages/aboutme.html">About Me</A>
+    </div>
+
+  
+</center>
+
+
+</body>
+</html>
+
