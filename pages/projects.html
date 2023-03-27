@@ -1,21 +1,81 @@
-  <style>
-    h1 {
-      font-family: 'Cedarville Cursive'; font-size: 40px;
-    }
-    
-    #textarea, #invisdiv {
-      opacity: 0;
-    }
-    
-    body {
-      background-image: url('https://thumbs.gfycat.com/LoathsomeAdmirableGalah-max-1mb.gif');
-      background-repeat: no-repeat;
-      background-attachment: fixed;  
-      background-size: cover;
-      font-family: "Raleway", sans-serif;
-      font-size: 30px;
-    }
-  </style>
+<!DOCTYPE html>
+<html>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+  <head>
+    <title>My Projects</title>
+    <style>
+      
+      body {
+        background-image: url('https://thumbs.gfycat.com/LoathsomeAdmirableGalah-max-1mb.gif');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        font-family: "Raleway", sans-serif;
+        font-size: 30px;
+        color: white;
+        text-align: center;
+      }
+      
+      h1 {
+        font-family: 'Raleway';
+        font-size: 40px;
+        color: white;
+      }
+      
+      #project-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      #project-list li {
+        margin: 20px;
+        text-align: center;
+      }
+      
+      #project-list img {
+        width: 200px;
+        height: 200px;
+      }
+      
+      #project-list a {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  
   <body>
+    <h1>My Projects</h1>
     
+    <ul id="project-list"></ul>
+    
+    <script>
+      const projects = [
+        { name: "Jetpack", image: 'https://github.com/gfund/Jetpack/raw/main/rocket.png', link: 'https://github.com/gfund/Jetpack' },
+        { name: 'Discord Bot Welder', image: 'https://resources.arcmachines.com/wp-content/uploads/2021/02/shutterstock_587205803.jpg', link: 'project2.html' }
+      ];
+      
+      const list = document.getElementById('project-list');
+      
+      projects.forEach((project) => {
+        const listItem = document.createElement("li");
+        const image = document.createElement("img");
+        const link = document.createElement("a");
+
+        image.src = project.image;
+        link.href = project.link;
+        link.textContent = project.name;
+
+        listItem.appendChild(image);
+        listItem.appendChild(link);
+
+        list.appendChild(listItem);
+      });
+    </script>
   </body>
+</html>
