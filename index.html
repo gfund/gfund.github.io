@@ -14,13 +14,69 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Last Price</th>
-                <th>Avg Price</th>
                 <th>Quantity</th>
+                <th>Avg Price</th>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
 
-    <script src="app.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+        
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+  apiKey: "AIzaSyC8jg4wnj6vfC5-OodbcYGjAGUMxpcktoY",
+  authDomain: "manager-48742.firebaseapp.com",
+  databaseURL: "https://manager-48742-default-rtdb.firebaseio.com",
+  projectId: "manager-48742",
+  storageBucket: "manager-48742.appspot.com",
+  messagingSenderId: "1066014118416",
+  appId: "1:1066014118416:web:2f268664b7be90af473095",
+  measurementId: "G-VX7JYDTJQF"
+};
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        
+        document.getElementById('loadData').addEventListener('click', loadDataFromFirebase);
+        
+        async function loadDataFromFirebase() {
+            const database = getDatabase(app);
+            const itemsRef = ref(database, 'Item'); // Replace with the correct path to your data
+        
+            try {
+                const snapshot = await get(itemsRef);
+                const data = snapshot.val();
+                displayDataInTable(data);
+            } catch (error) {
+                console.error("Error fetching data from Firebase: ", error);
+            }
+        }
+        
+        function displayDataInTable(data) {
+            const table = document.getElementById('dataTable');
+            const tbody = table.querySelector('tbody');
+        
+            tbody.innerHTML = ''; // Clear existing table rows
+        
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const rowData = data[key];
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${key}</td>
+                                    <td>${rowData.ItemName}</td>
+                                    <td>${rowData.ItemLastPrice}</td>
+                                    <td>${rowData.Quantity}</td>
+                                    <td>${rowData.ItemAvgPrice}</td>`;
+                    tbody.appendChild(row);
+                }
+            }
+        }
+    </script>
 </body>
 </html>
