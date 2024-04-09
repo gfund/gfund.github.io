@@ -2,55 +2,53 @@ const backgrounds = [
   "https://i.pinimg.com/originals/2f/87/34/2f87344e9be33d21c5da0b02a409e9b6.jpg",
   "https://i.etsystatic.com/6797489/r/il/b94794/695374348/il_1080xN.695374348_eqgf.jpg",
   "https://jakepetersonphoto.com/wp-content/uploads/2021/02/LCMTHC2854.jpg",
-]; // backgrounds to flip through
+];
 
-let curr_img_index = 0; // store current image index
+let curr_img_index = 0;
 
 function change_background() {
-  console.log("Change Back"); // Log a message to the console for debugging
+  console.log("Change Background");
 
   const containerElement = document.getElementById("image");
+  const textElement = document.querySelector(".text");
 
-  // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
-  const fadeEffect = setInterval(function () {
+  const fadeOutEffect = setInterval(function () {
     if (!containerElement.style.opacity) {
       containerElement.style.opacity = 1;
+      textElement.style.opacity = 1; // Ensure text remains visible during transition
     }
     if (parseFloat(containerElement.style.opacity) > 0) {
-      containerElement.style.opacity -= 0.1; // Fade out the background image
+      containerElement.style.opacity -= 0.1;
+      textElement.style.opacity -= 0.1; // Fade out the text along with the background image
     } else {
-      clearInterval(fadeEffect);
+      clearInterval(fadeOutEffect);
       containerElement.style.backgroundImage =
-        "url('" + backgrounds[curr_img_index] + "')"; // Switch the background image
-      fadeIn(); // Call fadeIn function to fade in the new image
+        "url('" + backgrounds[curr_img_index] + "')";
+      fadeIn(textElement); // Pass the text element to fadeIn function
     }
   }, 200);
 
-  // Increment the current image index
   curr_img_index++;
-
-  // If at the end of the array, restart from the beginning
   if (curr_img_index >= backgrounds.length) {
     curr_img_index = 0;
   }
 }
 
-function fadeIn() {
+function fadeIn(textElement) {
   const containerElement = document.getElementById("image");
 
-  // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
-  const fadeEffect = setInterval(function () {
+  const fadeInEffect = setInterval(function () {
     if (!containerElement.style.opacity) {
       containerElement.style.opacity = 0;
     }
     if (parseFloat(containerElement.style.opacity) < 1) {
       containerElement.style.opacity =
-        parseFloat(containerElement.style.opacity) + 0.1; // Fade in the new background image
+        parseFloat(containerElement.style.opacity) + 0.1;
+      textElement.style.opacity = parseFloat(textElement.style.opacity) + 0.1; // Ensure text remains visible during transition
     } else {
-      clearInterval(fadeEffect);
+      clearInterval(fadeInEffect);
     }
   }, 200);
 }
 
-// Call the change_background function every 2 seconds
 setInterval(change_background, 2000);
