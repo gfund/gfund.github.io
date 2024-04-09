@@ -51,4 +51,4 @@ function fadeIn(textElement) {
   }, 200);
 }
 
-setInterval(change_background, 2000);
+setInterval(change_background, 5000);
