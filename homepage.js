@@ -7,19 +7,22 @@ const backgrounds = [
 let curr_img_index = 0; // store current image index
 
 function change_background() {
-  //console.log("Change Back"); // Log a message to the console for debugging
+  console.log("Change Back"); // Log a message to the console for debugging
 
-  const fadeTarget = document.body; // Define fadeTarget as the body element
+  const bodyElement = document.body; // Define bodyElement as the body element
 
   // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
   const fadeEffect = setInterval(function () {
-    if (!fadeTarget.style.opacity) {
-      fadeTarget.style.opacity = 1;
+    if (!bodyElement.style.opacity) {
+      bodyElement.style.opacity = 1;
     }
-    if (parseFloat(fadeTarget.style.opacity) > 0) {
-      fadeTarget.style.opacity -= 0.1;
+    if (parseFloat(bodyElement.style.opacity) > 0) {
+      bodyElement.style.opacity -= 0.1; // Fade out the background image
     } else {
       clearInterval(fadeEffect);
+      bodyElement.style.backgroundImage =
+        "url('" + backgrounds[curr_img_index] + "')"; // Switch the background image
+      fadeIn(); // Call fadeIn function to fade in the new image
     }
   }, 200);
 
@@ -30,11 +33,23 @@ function change_background() {
   if (curr_img_index >= backgrounds.length) {
     curr_img_index = 0;
   }
+}
 
-  // Set the new background image
-  fadeTarget.style.backgroundImage =
-    "url('" + backgrounds[curr_img_index] + "')";
+function fadeIn() {
+  const bodyElement = document.body; // Define bodyElement as the body element
+
+  // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
+  const fadeEffect = setInterval(function () {
+    if (!bodyElement.style.opacity) {
+      bodyElement.style.opacity = 0;
+    }
+    if (parseFloat(bodyElement.style.opacity) < 1) {
+      bodyElement.style.opacity = parseFloat(bodyElement.style.opacity) + 0.1; // Fade in the new background image
+    } else {
+      clearInterval(fadeEffect);
+    }
+  }, 200);
 }
 
 // Call the change_background function every 2 seconds
-setInterval(change_background, 5000);
+setInterval(change_background, 2000);
