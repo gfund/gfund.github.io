@@ -1,38 +1,43 @@
-*{
-    margin:0px;
-    padding:0px;
+* {
+    margin: 0px;
+    padding: 0px;
     box-sizing: border-box;
     font-family: 'Times New Roman', Times, serif;
-    color:black;
+    color: black;
 }
-.container{
+
+.container {
     height: 100vh;
-    position:relative;
+    position: relative;
     background-repeat: no-repeat;
     background-attachment: fixed;  
     background-size: cover;
 }
-.text{
-    opacity:1;
-    text-align:center;
+
+.text {
+    opacity: 1; /* Ensure text is fully visible */
+    text-align: center;
     padding: 50px 0px;
 }
-.text h1{
+
+.text h1 {
     font-size: 80px;
-    margin: bottom 10px;
+    margin-bottom: 10px; /* Fix typo: margin-bottom instead of margin: bottom */
 }
-.text p{
+
+.text p {
     font-size: 22px;
-    margin: bottom 10px;
+    margin-bottom: 10px; /* Fix typo: margin-bottom instead of margin: bottom */
 }
-.container::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    height:100%;
-    width:100%;
-    background-image:url("https://t3.ftcdn.net/jpg/06/04/57/80/360_F_604578063_hYZa8zkG9JJedCH7Vh7RtfiR5Hmo0NZh.jpg");
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url("https://t3.ftcdn.net/jpg/06/04/57/80/360_F_604578063_hYZa8zkG9JJedCH7Vh7RtfiR5Hmo0NZh.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;  
     background-size: cover;
