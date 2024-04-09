@@ -7,7 +7,7 @@ const backgrounds = [
 let curr_img_index = 0; // store current image index
 
 function change_background() {
-  console.log("Change Back"); // Log a message to the console for debugging
+  //console.log("Change Back"); // Log a message to the console for debugging
 
   const fadeTarget = document.body; // Define fadeTarget as the body element
 
