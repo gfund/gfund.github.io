@@ -37,4 +37,4 @@ function change_background() {
 }
 
 // Call the change_background function every 2 seconds
-setInterval(change_background, 2000);
+setInterval(change_background, 5000);
