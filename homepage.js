@@ -4,28 +4,35 @@ const backgrounds = [
   "https://jakepetersonphoto.com/wp-content/uploads/2021/02/LCMTHC2854.jpg",
 ]; // backgrounds to flip through
 
-const curr_img_index = 0; //store current image index
+let curr_img_index = 0; // store current image index
 
 function change_background() {
-  //get the current background and start fading it out
+  const fadeTarget = document.body; // Define fadeTarget as the body element
 
-  //borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
-  var fadeEffect = setInterval(function () {
+  // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
+  const fadeEffect = setInterval(function () {
     if (!fadeTarget.style.opacity) {
       fadeTarget.style.opacity = 1;
     }
-    if (fadeTarget.style.opacity > 0) {
+    if (parseFloat(fadeTarget.style.opacity) > 0) {
       fadeTarget.style.opacity -= 0.1;
     } else {
       clearInterval(fadeEffect);
     }
   }, 200);
 
-  //the picture is now faded out
-  if (curr_img_index <= backgrounds.length) {
-    //flip over if at end of array
-    curr_img_index++; //increment the current image index by 1
-  } else {
-    curr_img_index = 0; //restart
+  // Increment the current image index
+  curr_img_index++;
+
+  // If at the end of the array, restart from the beginning
+  if (curr_img_index >= backgrounds.length) {
+    curr_img_index = 0;
   }
+
+  // Set the new background image
+  fadeTarget.style.backgroundImage =
+    "url('" + backgrounds[curr_img_index] + "')";
 }
+
+// Call the change_background function every 2 seconds
+setInterval(change_background, 2000);
