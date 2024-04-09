@@ -8,6 +8,9 @@
 .container{
     height: 100vh;
     position:relative;
+    background-repeat: no-repeat;
+    background-attachment: fixed;  
+    background-size: cover;
 }
 .text{
     text-align:center;
