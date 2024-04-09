@@ -3,6 +3,7 @@
     padding:0px;
     box-sizing: border-box;
     font-family: 'Times New Roman', Times, serif;
+    color:black;
 }
 .container{
     height: 100vh;
