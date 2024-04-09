@@ -9,7 +9,7 @@ let curr_img_index = 0; // store current image index
 function change_background() {
   console.log("Change Back"); // Log a message to the console for debugging
 
-  const bodyElement = document.body; // Define bodyElement as the body element
+  const bodyElement = document.getElementById("image");
 
   // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
   const fadeEffect = setInterval(function () {
