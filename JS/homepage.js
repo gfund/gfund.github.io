@@ -1,4 +1,4 @@
-const backgrounds = [
+/*const backgrounds = [
   "https://i.pinimg.com/originals/2f/87/34/2f87344e9be33d21c5da0b02a409e9b6.jpg",
   "https://i.etsystatic.com/6797489/r/il/b94794/695374348/il_1080xN.695374348_eqgf.jpg",
   "https://jakepetersonphoto.com/wp-content/uploads/2021/02/LCMTHC2854.jpg",
@@ -46,3 +46,4 @@ function fadeIn(containerElement) {
 }
 
 setInterval(change_background, 2000);
+*/
