@@ -9,18 +9,18 @@ let curr_img_index = 0; // store current image index
 function change_background() {
   console.log("Change Back"); // Log a message to the console for debugging
 
-  const bodyElement = document.getElementById("image");
+  const containerElement = document.getElementById("image");
 
   // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
   const fadeEffect = setInterval(function () {
-    if (!bodyElement.style.opacity) {
-      bodyElement.style.opacity = 1;
+    if (!containerElement.style.opacity) {
+      containerElement.style.opacity = 1;
     }
-    if (parseFloat(bodyElement.style.opacity) > 0) {
-      bodyElement.style.opacity -= 0.1; // Fade out the background image
+    if (parseFloat(containerElement.style.opacity) > 0) {
+      containerElement.style.opacity -= 0.1; // Fade out the background image
     } else {
       clearInterval(fadeEffect);
-      bodyElement.style.backgroundImage =
+      containerElement.style.backgroundImage =
         "url('" + backgrounds[curr_img_index] + "')"; // Switch the background image
       fadeIn(); // Call fadeIn function to fade in the new image
     }
@@ -36,15 +36,16 @@ function change_background() {
 }
 
 function fadeIn() {
-  const bodyElement = document.body; // Define bodyElement as the body element
+  const containerElement = document.getElementById("image");
 
   // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
   const fadeEffect = setInterval(function () {
-    if (!bodyElement.style.opacity) {
-      bodyElement.style.opacity = 0;
+    if (!containerElement.style.opacity) {
+      containerElement.style.opacity = 0;
     }
-    if (parseFloat(bodyElement.style.opacity) < 1) {
-      bodyElement.style.opacity = parseFloat(bodyElement.style.opacity) + 0.1; // Fade in the new background image
+    if (parseFloat(containerElement.style.opacity) < 1) {
+      containerElement.style.opacity =
+        parseFloat(containerElement.style.opacity) + 0.1; // Fade in the new background image
     } else {
       clearInterval(fadeEffect);
     }
