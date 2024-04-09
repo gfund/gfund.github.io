@@ -7,7 +7,8 @@ const backgrounds = [
 let curr_img_index = 0; // store current image index
 
 function change_background() {
-  print("Change Back");
+  console.log("Change Back"); // Log a message to the console for debugging
+
   const fadeTarget = document.body; // Define fadeTarget as the body element
 
   // borrowed from https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript
