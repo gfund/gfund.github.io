@@ -54,7 +54,14 @@
   async function loadTable() {
     const { data, error } = await supabaseClient
       .from("Items")
-      .select("*");
+      .select(`
+    image,
+    name,
+    quantity,
+    last_bought,
+    storage_location,
+    store
+  `);
 
     if (error) {
       console.error("Supabase error:", error);
