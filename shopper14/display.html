@@ -55,8 +55,9 @@
     const { data, error } = await supabaseClient
       .from("Items")
       .select(`
-    image,
     name,
+   image,
+
     quantity,
     last_bought,
     storage_location,
