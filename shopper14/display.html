@@ -4,14 +4,6 @@
   <meta charset="UTF-8" />
   <title>Inventory</title>
   <style>
-    .table-img {
-  max-width: 80px;
-  max-height: 80px;
-  object-fit: contain;   /* show full image without cropping */
-  border-radius: 6px;
-  background: #f8f8f8;
-  display: block;
-}
     table {
       border-collapse: collapse;
       width: 100%;
@@ -20,9 +12,35 @@
       border: 1px solid #ccc;
       padding: 8px;
       text-align: left;
+      vertical-align: middle;
     }
     th {
       background: #f4f4f4;
+    }
+    .table-img {
+      max-width: 80px;
+      max-height: 80px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #f8f8f8;
+      display: block;
+      margin: auto;
+    }
+    .qty-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty-wrapper button {
+      width: 28px;
+      height: 28px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .qty-wrapper span {
+      min-width: 24px;
+      text-align: center;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -37,39 +55,38 @@
   <tbody id="table-body"></tbody>
 </table>
 
-<!-- Supabase JS client -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
-  // 🔑 CONFIG
   const SUPABASE_URL = "https://rtrbyypiquuqjnrjmiaj.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_Vcuz7gn3HwLYhYyXxFTESQ_4dKMVgn4";
 
-  // ✅ FIX: do NOT name this `supabase`
   const supabaseClient = supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
   );
 
+  async function updateQuantity(id, quantity) {
+    await supabaseClient
+      .from("Items")
+      .update({ quantity })
+      .eq("id", id);
+  }
+
   async function loadTable() {
     const { data, error } = await supabaseClient
       .from("Items")
       .select(`
-    name,
-   image,
+        id,
+        name,
+        image,
+        quantity,
+        last_bought,
+        storage_location,
+        store
+      `);
 
-    quantity,
-    last_bought,
-    storage_location,
-    store
-  `);
-
-    if (error) {
-      console.error("Supabase error:", error);
-      return;
-    }
-
-    if (!data || data.length === 0) return;
+    if (error || !data || data.length === 0) return;
 
     const headRow = document.getElementById("table-head");
     const body = document.getElementById("table-body");
@@ -77,33 +94,61 @@
     headRow.innerHTML = "";
     body.innerHTML = "";
 
-    // headers
-    Object.keys(data[0]).forEach(key => {
-      const th = document.createElement("th");
-      th.textContent = key;
-      headRow.appendChild(th);
-    });
+    Object.keys(data[0])
+      .filter(k => k !== "id")
+      .forEach(key => {
+        const th = document.createElement("th");
+        th.textContent = key;
+        headRow.appendChild(th);
+      });
 
-    // rows
     data.forEach(row => {
       const tr = document.createElement("tr");
-      
-   Object.entries(row).forEach(([key, value]) => {
-  const td = document.createElement("td");
 
-  if (key === "image" && value) {
-    const img = document.createElement("img");
-    img.src = value;
-    img.alt = "product image";
-    img.loading = "lazy";
-    img.className = "table-img";
-    td.appendChild(img);
-  } else {
-    td.textContent = value ?? "";
-  }
+      Object.entries(row).forEach(([key, value]) => {
+        if (key === "id") return;
 
-  tr.appendChild(td);
-});
+        const td = document.createElement("td");
+
+        if (key === "image" && value) {
+          const img = document.createElement("img");
+          img.src = value;
+          img.className = "table-img";
+          td.appendChild(img);
+        } else if (key === "quantity") {
+          const wrapper = document.createElement("div");
+          wrapper.className = "qty-wrapper";
+
+          const minus = document.createElement("button");
+          minus.textContent = "−";
+
+          const plus = document.createElement("button");
+          plus.textContent = "+";
+
+          const span = document.createElement("span");
+          span.textContent = value ?? 0;
+
+          minus.onclick = async () => {
+            const newVal = Math.max(0, Number(span.textContent) - 1);
+            span.textContent = newVal;
+            await updateQuantity(row.id, newVal);
+          };
+
+          plus.onclick = async () => {
+            const newVal = Number(span.textContent) + 1;
+            span.textContent = newVal;
+            await updateQuantity(row.id, newVal);
+          };
+
+          wrapper.append(minus, span, plus);
+          td.appendChild(wrapper);
+        } else {
+          td.textContent = value ?? "";
+        }
+
+        tr.appendChild(td);
+      });
+
       body.appendChild(tr);
     });
   }
