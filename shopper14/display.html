@@ -90,14 +90,9 @@
     img.loading = "lazy";
     img.className = "table-img";
     td.appendChild(img);
-  } else if (key === "id" && value){
-
-    td.textContent = row.name ?? "";
-     tr.appendChild(td);
-   
-  }
-
  
+
+  tr.appendChild(td);
 });
       body.appendChild(tr);
     });
