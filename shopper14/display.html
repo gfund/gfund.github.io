@@ -71,11 +71,23 @@
     // rows
     data.forEach(row => {
       const tr = document.createElement("tr");
-      Object.values(row).forEach(value => {
-        const td = document.createElement("td");
-        td.textContent = value ?? "";
-        tr.appendChild(td);
-      });
+      
+   Object.values(row).forEach(([key, value]) => {
+  const td = document.createElement("td");
+
+  if (key === "image" && value) {
+    const img = document.createElement("img");
+    img.src = value;
+    img.alt = "product image";
+    img.loading = "lazy";
+    img.className = "table-img";
+    td.appendChild(img);
+  } else {
+    td.textContent = value ?? "";
+  }
+
+  tr.appendChild(td);
+});
       body.appendChild(tr);
     });
   }
