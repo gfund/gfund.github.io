@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Supabase Table</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Products</h1>
+
+<table id="data-table">
+  <thead>
+    <tr id="table-head"></tr>
+  </thead>
+  <tbody id="table-body"></tbody>
+</table>
+
+<!-- Supabase JS client -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<script>
+  // 🔑 CONFIG
+  const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+  const SUPABASE_ANON_KEY = "YOUR_PUBLIC_ANON_KEY";
+
+  const supabase = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  async function loadTable() {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*");
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    if (!data || data.length === 0) return;
+
+    const headRow = document.getElementById("table-head");
+    const body = document.getElementById("table-body");
+
+    // Clear existing
+    headRow.innerHTML = "";
+    body.innerHTML = "";
+
+    // Build headers dynamically
+    Object.keys(data[0]).forEach(key => {
+      const th = document.createElement("th");
+      th.textContent = key;
+      headRow.appendChild(th);
+    });
+
+    // Build rows
+    data.forEach(row => {
+      const tr = document.createElement("tr");
+
+      Object.values(row).forEach(value => {
+        const td = document.createElement("td");
+        td.textContent = value ?? "";
+        tr.appendChild(td);
+      });
+
+      body.appendChild(tr);
+    });
+  }
+
+  loadTable();
+</script>
+
+</body>
+</html>
