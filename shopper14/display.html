@@ -37,18 +37,19 @@
   const SUPABASE_URL = "https://rtrbyypiquuqjnrjmiaj.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_Vcuz7gn3HwLYhYyXxFTESQ_4dKMVgn4";
 
-  const supabase = supabase.createClient(
+  // ✅ FIX: do NOT name this `supabase`
+  const supabaseClient = supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
   );
 
   async function loadTable() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("products")
       .select("*");
 
     if (error) {
-      console.error(error);
+      console.error("Supabase error:", error);
       return;
     }
 
@@ -57,27 +58,24 @@
     const headRow = document.getElementById("table-head");
     const body = document.getElementById("table-body");
 
-    // Clear existing
     headRow.innerHTML = "";
     body.innerHTML = "";
 
-    // Build headers dynamically
+    // headers
     Object.keys(data[0]).forEach(key => {
       const th = document.createElement("th");
       th.textContent = key;
       headRow.appendChild(th);
     });
 
-    // Build rows
+    // rows
     data.forEach(row => {
       const tr = document.createElement("tr");
-
       Object.values(row).forEach(value => {
         const td = document.createElement("td");
         td.textContent = value ?? "";
         tr.appendChild(td);
       });
-
       body.appendChild(tr);
     });
   }
