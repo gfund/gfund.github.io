@@ -45,7 +45,7 @@
 
   async function loadTable() {
     const { data, error } = await supabaseClient
-      .from("products")
+      .from("items")
       .select("*");
 
     if (error) {
