@@ -90,7 +90,9 @@
     img.loading = "lazy";
     img.className = "table-img";
     td.appendChild(img);
- 
+  } else {
+    td.textContent = value ?? "";
+  }
 
   tr.appendChild(td);
 });
