@@ -90,8 +90,10 @@
     img.loading = "lazy";
     img.className = "table-img";
     td.appendChild(img);
-  } else {
-    td.textContent = value ?? "";
+  } else if (key === "id" && value != null) {
+
+    td.textContent = row.name ?? "";
+   
   }
 
   tr.appendChild(td);
