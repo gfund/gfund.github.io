@@ -72,7 +72,7 @@
     data.forEach(row => {
       const tr = document.createElement("tr");
       
-   Object.values(row).forEach(([key, value]) => {
+   Object.entries(row).forEach(([key, value]) => {
   const td = document.createElement("td");
 
   if (key === "image" && value) {
