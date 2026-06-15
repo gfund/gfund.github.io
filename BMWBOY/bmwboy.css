@@ -9,6 +9,16 @@ img {
   box-sizing: border-box;
 }
 
+#output {
+  width: 200px;
+  height: 300px;
+  display: block;
+ 
+  margin-top: 20px;
+  
+  color: #0f0;
+  font-family: monospace;
+}
 body {
   background: black;
   display: flex;
