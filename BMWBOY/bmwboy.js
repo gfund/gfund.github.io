@@ -12,6 +12,8 @@ for(let i=0; i<btn_ids.length; i++){
     let btn = document.getElementById(btn_ids[i]);
     btn.addEventListener("touchstart", function(e){
         console.log("pressed "+btn_ids[i]);
+        let output = document.getElementById("output");
+        output.value += "pressed "+btn_ids[i]+"\n";
         if(current_game!=null){
              e.preventDefault();
             current_game.controller.press(btn_ids[i]);
