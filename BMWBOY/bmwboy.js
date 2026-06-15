@@ -12,7 +12,7 @@ for(let i=0; i<btn_ids.length; i++){
     let btn = document.getElementById(btn_ids[i]);
     btn.addEventListener("touchstart", function(e){
         console.log("pressed "+btn_ids[i]);
-      
+   
         if(current_game!=null){
              e.preventDefault();
             current_game.controller.press(btn_ids[i]);
@@ -25,7 +25,7 @@ function scaleButtons() {
   const consoleContainer = document.getElementById('console');
   
   // Get the actual rendered width of the console image
-  const scale = consoleImg.offsetWidth / 400; // 400 = your original console width in pixels
+  const scale = consoleImg.width / 340; // 400 = your original console width in pixels
   
   const buttons = [
     { id: 'btn-a', x: 239, y: 307, w: 50, h: 50 },
