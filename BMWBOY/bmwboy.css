@@ -76,7 +76,10 @@ body {
   top: 348px;
   left: 59px;
 }
-
 #console {
   position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 100%;
+  height: auto;
 }
