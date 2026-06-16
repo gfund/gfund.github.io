@@ -20,7 +20,8 @@ async function load_in_games(canvas) {
     img.src = `./games/${name}/gametitle.png`;
     img.onload = () => {
       const y = index * spacing;
-      ctx.drawImage(img, 0, y, canvas.width, spacing);
+      const imgHeight = Math.min(spacing, 150);
+    ctx.drawImage(img, 0, y, canvas.width, imgHeight);
     };
     
     //const module = await import(`./games/${name}/game.js`);
