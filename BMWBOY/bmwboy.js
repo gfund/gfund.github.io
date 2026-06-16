@@ -14,7 +14,20 @@ function calculate_coord(equationX, equationY, index) {
   const y = math.evaluate(equationY, { t: index });
   return { x, y };
 }
-
+function draw_start_screen() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const bg = new Image();
+  bg.src = `./games/${gamesList[selectedIndex]}/menuart.png`;
+  bg.onload = () => {
+    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+    
+    ctx.font = 'bold 30px Arial';
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'center';
+    ctx.fillText('PRESS START', canvas.width / 2, canvas.height / 2);
+  };
+}
 function drawMenu() {
   const spacing = canvas.height / gamesList.length;
   ctx.drawImage(menuBg, 0, 0, canvas.width, canvas.height);
