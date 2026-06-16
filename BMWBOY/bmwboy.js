@@ -112,8 +112,8 @@ function drawtoScreen(){
   const canvas = document.getElementById('screen');
   const screenArea = document.getElementById('screen-area');
 
-  canvas.width = screenArea.offsetWidth - 48;
-  canvas.height = screenArea.offsetHeight - 960;
+  canvas.width = screenArea.offsetWidth
+  canvas.height = screenArea.offsetHeight;
   canvas_height = canvas.height;
   const ctx = canvas.getContext('2d');
  
