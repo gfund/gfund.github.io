@@ -4,37 +4,83 @@ canvas_height = 0;
 let settledCanvas, settledCtx;
 let canvas, ctx;
 var power = false;
+let selectedIndex = 0;
+let gamesList = [];
+let gameImages = [];
+let menuBg = null;
 
 function calculate_coord(equationX, equationY, index) {
   const x = math.evaluate(equationX, { t: index });
   const y = math.evaluate(equationY, { t: index });
   return { x, y };
 }
+
+function drawMenu() {
+  const spacing = canvas.height / gamesList.length;
+  ctx.drawImage(menuBg, 0, 0, canvas.width, canvas.height);
+  
+  gameImages.forEach((img, index) => {
+    const imgHeight = Math.min(spacing, 150);
+    const y = index * imgHeight;
+    
+    if (index === selectedIndex) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.fillRect(0, y, canvas.width, imgHeight);
+    }
+    
+    ctx.drawImage(img, 0, y, canvas.width, imgHeight);
+  });
+}
+
 async function load_in_games(canvas) {
   const ctx = canvas.getContext('2d');
   
-  const bg = new Image();
-  bg.src = 'bmwboyback.png';
-  bg.onload = async () => {
-    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+  menuBg = new Image();
+  menuBg.src = 'bmwboyback.png';
+  menuBg.onload = async () => {
+    ctx.drawImage(menuBg, 0, 0, canvas.width, canvas.height);
     
-    const games = await fetch('manifest.json').then(r => r.json());
-    const spacing = canvas.height / games.length;
+    gamesList = await fetch('manifest.json').then(r => r.json());
+    const spacing = canvas.height / gamesList.length;
     
-    games.forEach((name, index) => {
-      const img = new Image();
-      img.src = `./games/${name}/gametitle.png`;
-      img.onload = () => {
-        const imgHeight = Math.min(spacing, 150);
-        ctx.drawImage(img, 0, index * imgHeight, canvas.width, imgHeight);
-      };
+    gameImages = await Promise.all(gamesList.map(name => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = `./games/${name}/gametitle.png`;
+        img.onload = () => resolve(img);
+      });
+    }));
+    
+    drawMenu();
+
+    document.getElementById('btn-up').addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (current_game == null) {
+        selectedIndex = Math.max(0, selectedIndex - 1);
+        drawMenu();
+      }
+    });
+
+    document.getElementById('btn-down').addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (current_game == null) {
+        selectedIndex = Math.min(gamesList.length - 1, selectedIndex + 1);
+        drawMenu();
+      }
+    });
+
+    document.getElementById('btn-a').addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (current_game == null) {
+        console.log('launching', gamesList[selectedIndex]);
+        // load game here
+      }
     });
   };
 }
 
 //const module = await import(`./games/${name}/game.js`);
-    // module exposes controller, init, start, stop
-
+// module exposes controller, init, start, stop
 
 class DrawingObject {
   constructor(x, y, color) {
