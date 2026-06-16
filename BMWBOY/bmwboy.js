@@ -100,6 +100,7 @@ async function launch_game(name) {
     // current_game.init(canvas, ctx);
     // current_game.start();
   };
+  draw_start_screen();
 }
 class DrawingObject {
   constructor(x, y, color) {
@@ -186,6 +187,7 @@ start_button.addEventListener("touchstart", function (e) {
     // we're in the menu, launch selected game
     console.log('launching', gamesList[selectedIndex]);
     launch_game(gamesList[selectedIndex]);
+  
   }
 }
   
