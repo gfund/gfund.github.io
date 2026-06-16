@@ -10,6 +10,26 @@ function calculate_coord(equationX, equationY, index) {
   const y = math.evaluate(equationY, { t: index });
   return { x, y };
 }
+async function load_in_games(canvas) {
+  const games = await fetch('manifest.json').then(r => r.json());
+  const ctx = canvas.getContext('2d');
+  const spacing = canvas.height / games.length;
+  
+  games.forEach(async (name, index) => {
+    const img = new Image();
+    img.src = `./games/${name}/gametitle.png`;
+    img.onload = () => {
+      const y = index * spacing;
+      ctx.drawImage(img, 0, y, canvas.width, spacing);
+    };
+    
+    //const module = await import(`./games/${name}/game.js`);
+    // module exposes controller, init, start, stop
+  });
+}
+
+
+
 
 class DrawingObject {
   constructor(x, y, color) {
@@ -75,17 +95,21 @@ for (let i = 0; i < btn_ids.length; i++) {
 var start_button = document.getElementById('btn-start');
 start_button.addEventListener("touchstart", function (e) {
   e.preventDefault();
+  if (current_game) {
+    // pause
+  }
   if (!power) {
-    power = true; // prevent double firing
-     const sound = new Audio('boot.mp3');
-    sound.play();
+    power = true;
+    const sound = new Audio('boot.mp3');
+    sound.play().catch(() => {
+      document.addEventListener('touchstart', () => sound.play(), { once: true });
+    });
     logo_draw();
   }
 });
 
 function scaleButtons() {
   const consoleImg = document.getElementById('console-img');
-
   const scale = consoleImg.width / 340;
 
   const buttons = [
@@ -106,6 +130,11 @@ function scaleButtons() {
     el.style.width = (btn.w * scale) + 'px';
     el.style.height = (btn.h * scale) + 'px';
   });
+}
+
+function wipe() {
+  settledCtx.drawImage(canvas, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function initScreen() {
@@ -135,7 +164,12 @@ function logo_draw() {
     const letter2 = new StringObject(0, canvas_height - 100, '#08241c', '110px Arial', 'Matt Edition');
 
     animation_draw(ctx, letter, 150, canvas_height - 700, "0", "-t", 100, 400, 5, () => {
-      animation_draw(ctx, letter2, 150, canvas_height - 600, "0", "-t", 100, 400, 5);
+      animation_draw(ctx, letter2, 150, canvas_height - 600, "0", "-t", 100, 400, 5, () => {
+        setTimeout(() => {
+          wipe();
+          load_in_games(canvas);
+        }, 1500);
+      });
     });
   };
 }
