@@ -68,19 +68,26 @@ async function load_in_games(canvas) {
       }
     });
 
-    document.getElementById('btn-a').addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      if (current_game == null) {
-        console.log('launching', gamesList[selectedIndex]);
-        // load game here
-      }
-    });
+    
   };
 }
 
 //const module = await import(`./games/${name}/game.js`);
 // module exposes controller, init, start, stop
-
+async function launch_game(name) {
+  wipe();
+  
+  const bg = new Image();
+  bg.src = `./games/${name}/gameart.png`;
+  bg.onload = async () => {
+    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+    
+    // const module = await import(`./games/${name}/game.js`);
+    // current_game = module;
+    // current_game.init(canvas, ctx);
+    // current_game.start();
+  };
+}
 class DrawingObject {
   constructor(x, y, color) {
     this.x = x;
@@ -147,16 +154,17 @@ start_button.addEventListener("touchstart", function (e) {
   e.preventDefault();
   if (current_game) {
     // pause
-  }
-  if (!power) {
+  } else if (!power) {
     power = true;
-    const sound = new Audio('boot.mp3');
-    sound.play().catch(() => {
-      document.addEventListener('touchstart', () => sound.play(), { once: true });
-    });
-    logo_draw();
+    // boot sequence
+  } else {
+    // we're in the menu, launch selected game
+    console.log('launching', gamesList[selectedIndex]);
+    launch_game(gamesList[selectedIndex]);
   }
 });
+
+
 
 function scaleButtons() {
   const consoleImg = document.getElementById('console-img');
