@@ -11,25 +11,29 @@ function calculate_coord(equationX, equationY, index) {
   return { x, y };
 }
 async function load_in_games(canvas) {
-  const games = await fetch('manifest.json').then(r => r.json());
   const ctx = canvas.getContext('2d');
-  const spacing = canvas.height / games.length;
   
-  games.forEach(async (name, index) => {
-    const img = new Image();
-    img.src = `./games/${name}/gametitle.png`;
-    img.onload = () => {
-      const y = index * spacing;
-      const imgHeight = Math.min(spacing, 150);
-    ctx.drawImage(img, 0, y, canvas.width, imgHeight);
-    };
+  const bg = new Image();
+  bg.src = 'bmwboyback.png';
+  bg.onload = async () => {
+    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
     
-    //const module = await import(`./games/${name}/game.js`);
-    // module exposes controller, init, start, stop
-  });
+    const games = await fetch('./games/manifest.json').then(r => r.json());
+    const spacing = canvas.height / games.length;
+    
+    games.forEach((name, index) => {
+      const img = new Image();
+      img.src = `./games/${name}/gametitle.png`;
+      img.onload = () => {
+        const imgHeight = Math.min(spacing, 150);
+        ctx.drawImage(img, 0, index * imgHeight, canvas.width, imgHeight);
+      };
+    });
+  };
 }
 
-
+//const module = await import(`./games/${name}/game.js`);
+    // module exposes controller, init, start, stop
 
 
 class DrawingObject {
