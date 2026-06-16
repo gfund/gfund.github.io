@@ -18,7 +18,7 @@ async function load_in_games(canvas) {
   bg.onload = async () => {
     ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
     
-    const games = await fetch('./games/manifest.json').then(r => r.json());
+    const games = await fetch('manifest.json').then(r => r.json());
     const spacing = canvas.height / games.length;
     
     games.forEach((name, index) => {
