@@ -26,7 +26,7 @@ function drawMenu() {
     ctx.drawImage(img, 0, y, canvas.width, imgHeight);
     
     if (index === selectedIndex) {
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.fillStyle = 'rgba(113, 4, 146, 0.3)';
       ctx.fillRect(0, y, canvas.width, imgHeight);
     }
   });
