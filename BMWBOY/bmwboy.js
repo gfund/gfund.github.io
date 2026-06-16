@@ -23,12 +23,12 @@ function drawMenu() {
     const imgHeight = Math.min(spacing, 150);
     const y = index * imgHeight;
     
+    ctx.drawImage(img, 0, y, canvas.width, imgHeight);
+    
     if (index === selectedIndex) {
       ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
       ctx.fillRect(0, y, canvas.width, imgHeight);
     }
-    
-    ctx.drawImage(img, 0, y, canvas.width, imgHeight);
   });
 }
 
@@ -41,7 +41,6 @@ async function load_in_games(canvas) {
     ctx.drawImage(menuBg, 0, 0, canvas.width, canvas.height);
     
     gamesList = await fetch('manifest.json').then(r => r.json());
-    const spacing = canvas.height / gamesList.length;
     
     gameImages = await Promise.all(gamesList.map(name => {
       return new Promise((resolve) => {
