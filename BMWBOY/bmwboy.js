@@ -156,7 +156,12 @@ start_button.addEventListener("touchstart", function (e) {
     // pause
   } else if (!power) {
     power = true;
-    // boot sequence
+    power = true;
+    const sound = new Audio('boot.mp3');
+    sound.play().catch(() => {
+      document.addEventListener('touchstart', () => sound.play(), { once: true });
+    });
+    logo_draw();
   } else {
     // we're in the menu, launch selected game
     console.log('launching', gamesList[selectedIndex]);
