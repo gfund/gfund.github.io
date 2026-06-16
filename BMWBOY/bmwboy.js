@@ -8,7 +8,7 @@ let selectedIndex = 0;
 let gamesList = [];
 let gameImages = [];
 let menuBg = null;
-
+let menu=false;
 function calculate_coord(equationX, equationY, index) {
   const x = math.evaluate(equationX, { t: index });
   const y = math.evaluate(equationY, { t: index });
@@ -151,10 +151,13 @@ for (let i = 0; i < btn_ids.length; i++) {
 
 var start_button = document.getElementById('btn-start');
 start_button.addEventListener("touchstart", function (e) {
+
   e.preventDefault();
   if (current_game) {
     // pause
-  } else if (!power) {
+}
+   else if (!power) {
+    console.log("POWER!")
     power = true;
     
     const sound = new Audio('boot.mp3');
@@ -162,11 +165,17 @@ start_button.addEventListener("touchstart", function (e) {
       document.addEventListener('touchstart', () => sound.play(), { once: true });
     });
     logo_draw();
+    
   } else {
+    if(menu){
+
+    
     // we're in the menu, launch selected game
     console.log('launching', gamesList[selectedIndex]);
     launch_game(gamesList[selectedIndex]);
   }
+}
+  
 });
 
 
@@ -216,6 +225,7 @@ function initScreen() {
 }
 
 function logo_draw() {
+  console.log("BEING CALLED")
   initScreen();
 
   const img = new Image();
@@ -231,6 +241,7 @@ function logo_draw() {
         setTimeout(() => {
           wipe();
           load_in_games(canvas);
+          menu=true;
         }, 1500);
       });
     });
