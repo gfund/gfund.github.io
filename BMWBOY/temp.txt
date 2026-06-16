@@ -1,12 +1,9 @@
 var current_game=null;
 canvas_objects=[];
 canvas_height=0;
-let settledCanvas, settledCtx;
-
-function calculate_coord(equationX, equationY, index) {
-  const x = math.evaluate(equationX, { t: index });
-  const y = math.evaluate(equationY, { t: index });
-  return { x, y };
+function calculate_coord(equation, index) {
+  const result = math.evaluate(equation, { x: index });
+  return { x: index, y: result };
 }
 
 class DrawingObject{
@@ -30,26 +27,36 @@ class StringObject extends DrawingObject{
   }
 }
 
-function animation_draw(ctx, object, startx, starty, equationX, equationY, step_time, steps, velocity = 1, onComplete) {
+function animation_draw(ctx, object, startx, starty, equation, step_time, steps, velocity = 1,clr_prev_after) {
+  const colors = ['#0066FF', '#00CED1', '#90EE90', '#FFFF00', '#FF8C00', '#FF0000'];
   let i = 0;
+  var clr_prev=clr_prev_after;
   
-  function animate() {
+  function animate(clr_prev) {
+    console.log(clr_prev_after);
     if (i <= steps) {
-      const coord = calculate_coord(equationX, equationY, i);
+      console.log("drawing",object);
+      const coord = calculate_coord(equation, i);
+      console.log(coord);
 
       object.x = startx + coord.x;
-      object.y = starty - coord.y;
+      object.y = starty - coord.y; // minus if you want upward curves
 
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      ctx.drawImage(settledCanvas, 0, 0);
+     // object.color = colors[i % colors.length];
+
+      if(clr_prev_after==true){
+        console.log("WIPE");
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        clr_prev_after=true;
+      }
       object.draw(ctx);
 
       i += velocity;
+     
       setTimeout(animate, step_time);
-    } else {
-      settledCtx.drawImage(ctx.canvas, 0, 0);
-      if (onComplete) onComplete();
     }
+    
+
   }
 
   animate();
@@ -97,15 +104,16 @@ function scaleButtons() {
 }
 
 function logo_draw(){
+  const letters=['B', 'M', 'W', 'B', 'O', 'Y'];
   const canvas = document.getElementById('screen');
   const ctx = canvas.getContext('2d');
   
-  const letter = new StringObject(0, canvas_height - 100, '#ccc8c0', '120px Arial', 'BMWBOY\u00AE');
-  const letter2 = new StringObject(0, canvas_height - 100, '#08241c', '110px Arial', 'Matt Edition');
+  const letter = new StringObject(0, canvas_height - 100, '#0066FF', '120px Arial', 'B',true);
   
-  animation_draw(ctx, letter, 150, canvas_height-700, "0", "-t", 100, 400, 10, () => {
-    animation_draw(ctx, letter2, 150, canvas_height-600, "0", "-t", 100, 400, 10);
-  });
+  animation_draw(ctx, letter, 20, canvas_height - 100, "x", 100, 100, 10,true);
+  const letter2=new StringObject(0, canvas_height - 100, '#0066FF', '120px Arial', 'M');
+  animation_draw(ctx, letter2, letter.x, canvas_height - 100,String( letter.x), 100, 100, 10,false);
+
 }
 
 function drawtoScreen(){
@@ -116,20 +124,17 @@ function drawtoScreen(){
   canvas.height = screenArea.offsetHeight - 960;
   canvas_height = canvas.height;
   const ctx = canvas.getContext('2d');
- 
-  settledCanvas = document.createElement('canvas');
-  settledCanvas.width = canvas.width;
-  settledCanvas.height = canvas.height;
-  settledCtx = settledCanvas.getContext('2d');
-
+  ctx.translate(50, 0);
+  
   const img = new Image();
-  img.src = 'bmwboyback.png';
+  img.src = 'games/proxy_quest/testing.jpeg';
+  console.log(screenArea.offsetWidth, screenArea.offsetHeight);
   img.onload = () => {
-    settledCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    logo_draw();
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   };
 }
 
 drawtoScreen();
+logo_draw();
 window.addEventListener('resize', scaleButtons);
 scaleButtons();
