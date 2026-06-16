@@ -156,7 +156,7 @@ start_button.addEventListener("touchstart", function (e) {
     // pause
   } else if (!power) {
     power = true;
-    power = true;
+    
     const sound = new Audio('boot.mp3');
     sound.play().catch(() => {
       document.addEventListener('touchstart', () => sound.play(), { once: true });
