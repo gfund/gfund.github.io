@@ -1,4 +1,5 @@
 var current_game = null;
+var pendingGame = null;
 canvas_objects = [];
 canvas_height = 0;
 let settledCanvas, settledCtx;
@@ -8,36 +9,39 @@ let selectedIndex = 0;
 let gamesList = [];
 let gameImages = [];
 let menuBg = null;
-let menu=false;
+let menu = false;
+
 function calculate_coord(equationX, equationY, index) {
   const x = math.evaluate(equationX, { t: index });
   const y = math.evaluate(equationY, { t: index });
   return { x, y };
 }
+
 function draw_start_screen() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+
   const bg = new Image();
   bg.src = `./games/${gamesList[selectedIndex]}/menuart.png`;
   bg.onload = () => {
     ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
-    
+
     ctx.font = 'bold 30px Arial';
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
     ctx.fillText('PRESS START', canvas.width / 2, canvas.height / 2);
   };
 }
+
 function drawMenu() {
   const spacing = canvas.height / gamesList.length;
   ctx.drawImage(menuBg, 0, 0, canvas.width, canvas.height);
-  
+
   gameImages.forEach((img, index) => {
     const imgHeight = Math.min(spacing, 150);
     const y = index * imgHeight;
-    
+
     ctx.drawImage(img, 0, y, canvas.width, imgHeight);
-    
+
     if (index === selectedIndex) {
       ctx.fillStyle = 'rgba(113, 4, 146, 0.3)';
       ctx.fillRect(0, y, canvas.width, imgHeight);
@@ -47,14 +51,14 @@ function drawMenu() {
 
 async function load_in_games(canvas) {
   const ctx = canvas.getContext('2d');
-  
+
   menuBg = new Image();
   menuBg.src = 'bmwboyback.png';
   menuBg.onload = async () => {
     ctx.drawImage(menuBg, 0, 0, canvas.width, canvas.height);
-    
+
     gamesList = await fetch('manifest.json').then(r => r.json());
-    
+
     gameImages = await Promise.all(gamesList.map(name => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -62,7 +66,7 @@ async function load_in_games(canvas) {
         img.onload = () => resolve(img);
       });
     }));
-    
+
     drawMenu();
 
     document.getElementById('btn-up').addEventListener('touchstart', (e) => {
@@ -80,31 +84,16 @@ async function load_in_games(canvas) {
         drawMenu();
       }
     });
-
-    
   };
 }
 
-//const module = await import(`./games/${name}/game.js`);
-// module exposes controller, init, start, stop
 async function launch_game(name) {
   wipe();
-  
-  const bg = new Image();
-  bg.src = `./games/${name}/gameart.png`;
-  bg.onload = async () => {
-    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
-    
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const module = await import(`./games/${name}/game.js`);
-    current_game = module;
-    wipe();
-    current_game.init(canvas, ctx);
-    current_game.start();
-  };
+  pendingGame = name;
+  menu = false;
   draw_start_screen();
 }
+
 class DrawingObject {
   constructor(x, y, color) {
     this.x = x;
@@ -177,35 +166,43 @@ for (let i = 0; i < btn_ids.length; i++) {
 
 var start_button = document.getElementById('btn-start');
 start_button.addEventListener("touchstart", function (e) {
-
   e.preventDefault();
+
   if (current_game) {
     // pause
-}
-   else if (!power) {
-    console.log("POWER!")
+
+  } else if (pendingGame) {
+    const name = pendingGame;
+    pendingGame = null;
+    const bg = new Image();
+    bg.src = `./games/${name}/gameart.png`;
+    bg.onload = async () => {
+      ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      wipe();
+      const module = await import(`./games/${name}/game.js`);
+      current_game = module;
+      current_game.init(canvas, ctx);
+      current_game.start();
+    };
+
+  } else if (!power) {
+    console.log("POWER!");
     power = true;
-    
+
     const sound = new Audio('boot.mp3');
     sound.play().catch(() => {
       document.addEventListener('touchstart', () => sound.play(), { once: true });
     });
     logo_draw();
-    
+
   } else {
-    if(menu){
-
-    
-    // we're in the menu, launch selected game
-    console.log('launching', gamesList[selectedIndex]);
-    launch_game(gamesList[selectedIndex]);
-  
+    if (menu) {
+      console.log('launching', gamesList[selectedIndex]);
+      launch_game(gamesList[selectedIndex]);
+    }
   }
-}
-  
 });
-
-
 
 function scaleButtons() {
   const consoleImg = document.getElementById('console-img');
@@ -252,7 +249,7 @@ function initScreen() {
 }
 
 function logo_draw() {
-  console.log("BEING CALLED")
+  console.log("BEING CALLED");
   initScreen();
 
   const img = new Image();
@@ -268,7 +265,7 @@ function logo_draw() {
         setTimeout(() => {
           wipe();
           load_in_games(canvas);
-          menu=true;
+          menu = true;
         }, 1500);
       });
     });
