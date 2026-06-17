@@ -180,8 +180,8 @@ start_button.addEventListener("touchstart", function (e) {
       ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
       await new Promise(resolve => setTimeout(resolve, 2000));
       wipe();
-      const module = await import(`./games/${name}/game.js`);
-      current_game = module;
+      await import(`./games/${name}/game.js`);
+      current_game = window.__proxyquest;
       current_game.init(canvas, ctx);
       current_game.start();
     };

@@ -1,4 +1,4 @@
-wall_max = 300;
+var wall_max = 300;
 
 function collides(a, b) {
     return a.x < b.x + b.width &&
@@ -129,19 +129,19 @@ function init(canvas, ctx) {
     }
 
     bg.onload = onImageLoad;
-    bg.src = './games/proxyquest/bg.png';
+    bg.src = './games/proxy_quest/bg.png';
 
     mattImg.onload = onImageLoad;
-    mattImg.src = './games/proxyquest/matt.png';
+    mattImg.src = './games/proxy_quest/matt.png';
 
     mattJumpImg.onload = onImageLoad;
-    mattJumpImg.src = './games/proxyquest/matt_jump.png';
+    mattJumpImg.src = './games/proxy_quest/matt_jump.png';
 
     defectImg.onload = onImageLoad;
-    defectImg.src = './games/proxyquest/defect.png';
+    defectImg.src = './games/proxy_quest/defect.png';
 
     endImg.onload = onImageLoad;
-    endImg.src = './games/proxyquest/end.png';
+    endImg.src = './games/proxy_quest/end.png';
 
     gameOver = false;
     won = false;
