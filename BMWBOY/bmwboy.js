@@ -95,10 +95,12 @@ async function launch_game(name) {
   bg.onload = async () => {
     ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
     
-    // const module = await import(`./games/${name}/game.js`);
-    // current_game = module;
-    // current_game.init(canvas, ctx);
-    // current_game.start();
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    const module = await import(`./games/${name}/game.js`);
+    current_game = module;
+    current_game.init(canvas, ctx);
+    current_game.start();
   };
   draw_start_screen();
 }
@@ -159,6 +161,15 @@ for (let i = 0; i < btn_ids.length; i++) {
     if (current_game != null) {
       e.preventDefault();
       current_game.controller.press(btn_ids[i]);
+    }
+  });
+}
+for (let i = 0; i < btn_ids.length; i++) {
+  let btn = document.getElementById(btn_ids[i]);
+  btn.addEventListener("touchend", function (e) {
+    if (current_game != null) {
+      e.preventDefault();
+      current_game.controller.release(btn_ids[i]);
     }
   });
 }
