@@ -88,7 +88,7 @@ function onImageLoad() {
     imagesLoaded++;
 }
 
-export const controller = {
+const controller = {
     press(btnId) {
         if (gameOver) return;
         if (btnId === 'btn-right') {
@@ -117,7 +117,7 @@ export const controller = {
     }
 };
 
-export function init(canvas, ctx) {
+function init(canvas, ctx) {
     _canvas = canvas;
     _ctx = ctx;
 
@@ -129,16 +129,16 @@ export function init(canvas, ctx) {
     }
 
     bg.onload = onImageLoad;
-    bg.src = './games/proxyquest/background.png';
+    bg.src = './games/proxyquest/bg.png';
 
     mattImg.onload = onImageLoad;
-    mattImg.src = './games/proxyquest/sprites/matt.png';
+    mattImg.src = './games/proxyquest/matt.png';
 
     mattJumpImg.onload = onImageLoad;
-    mattJumpImg.src = './games/proxyquest/sprites/matt_jump.png';
+    mattJumpImg.src = './games/proxyquest/matt_jump.png';
 
     defectImg.onload = onImageLoad;
-    defectImg.src = './games/proxyquest/sprites/defect.png';
+    defectImg.src = './games/proxyquest/defect.png';
 
     endImg.onload = onImageLoad;
     endImg.src = './games/proxyquest/end.png';
@@ -277,7 +277,7 @@ function render() {
     }
 }
 
-export function start() {
+function start() {
     function loop() {
         update();
         render();
@@ -286,6 +286,8 @@ export function start() {
     loop();
 }
 
-export function stop() {
+function stop() {
     gameOver = true;
 }
+
+window.__proxyquest = { controller, init, start, stop };
