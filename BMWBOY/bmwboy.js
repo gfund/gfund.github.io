@@ -99,6 +99,7 @@ async function launch_game(name) {
     
     const module = await import(`./games/${name}/game.js`);
     current_game = module;
+    wipe();
     current_game.init(canvas, ctx);
     current_game.start();
   };
